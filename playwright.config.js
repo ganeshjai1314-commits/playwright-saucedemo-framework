@@ -1,14 +1,18 @@
-const { defineConfig } = require("@playwright/test");
+// playwright.config.js
+const { defineConfig, devices } = require("@playwright/test");
 
 module.exports = defineConfig({
   testDir: "./tests",
-  reporter: "html", // Tells Playwright to save an HTML report
+  fullyParallel: false,
+  workers: process.env.CI ? 1 : undefined, // Forces 1 worker on CI to avoid rate limiting
   use: {
-    headless: false, // Runs all UI tests in a visible browser automatically
-    launchOptions: {
-      slowMo: 1000, // Pauses 1000ms (1 second) between every action
-    },
-    screenshot: "only-on-failure",
-    video: "retain-on-failure",
+    baseURL: "https://www.saucedemo.com",
+    trace: "on-first-retry",
   },
+  projects: [
+    {
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] },
+    },
+  ],
 });

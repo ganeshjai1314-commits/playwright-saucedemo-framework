@@ -2,7 +2,7 @@ const { test, expect } = require("@playwright/test");
 
 test.describe("SauceDemo Login Tests", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto("https://www.saucedemo.com/");
+    await page.goto("https://www.saucedemo.com/", { waitUntil: "networkidle" });
   });
 
   test("Successful login with valid credentials", async ({ page }) => {
